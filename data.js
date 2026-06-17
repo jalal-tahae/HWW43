@@ -144,6 +144,9 @@ const BOOKS = [
     imgSrc: "16.jpg",
   },
 ];
+let cc = document.querySelector(".container .cardscontainer");
+const filtersContainer = document.querySelector(".container .filtercontainer");
+const checkedLangs = [];
 function renderBook(BookList) {
   const result = BookList.map(function (item) {
     // debugger;
@@ -165,9 +168,37 @@ function renderBook(BookList) {
         </div>
     `;
   });
+
+  let output = result.join("");
+
+  cc.innerHTML = output;
 }
-let output = result.join("");
-let cc = document.querySelector(".container .cardscontainer");
-cc.innerHTML = output;
-renderBook(BOOKS)
+
+renderBook(BOOKS);
 /////////filters
+const renderLanguage = () => {
+  const uniqLang = [];
+  BOOKS.forEach((current) => {
+    if (!uniqLang.includes(current.language)) uniqLang.push(current.language);
+  });
+  console.log(uniqLang);
+  const filterItemsL = uniqLang
+    .map((item) => {
+      return `
+
+      <div>
+        <label for="${item}">${item}</label>
+        <input id="${item}" type="checkbox" onchange="handleLanguageChange(${item})" />
+      <div>
+
+  `;
+    })
+    .join("");
+  filtersContainer.innerHTML += filterItemsL;
+};
+
+renderLanguage();
+
+const handleLangChange = (language) =>{
+  
+}
