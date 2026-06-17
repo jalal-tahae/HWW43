@@ -144,10 +144,10 @@ const BOOKS = [
     imgSrc: "16.jpg",
   },
 ];
-
-const result = BOOKS.map(function (item) {
-  // debugger;
-  return `
+function renderBook(BookList) {
+  const result = BookList.map(function (item) {
+    // debugger;
+    return `
         <div>
             <img src="./image/${item.imgSrc}" class="m-w-2"/>
           <h3>  ${item.title}</h3>
@@ -164,10 +164,10 @@ const result = BOOKS.map(function (item) {
 
         </div>
     `;
-});
+  });
+}
 let output = result.join("");
 let cc = document.querySelector(".container .cardscontainer");
 cc.innerHTML = output;
-
+renderBook(BOOKS)
 /////////filters
-
