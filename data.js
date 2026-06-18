@@ -145,12 +145,14 @@ const BOOKS = [
   },
 ];
 let cc = document.querySelector(".container .cardscontainer");
-
+const language=[]
+const checkedLangs=[]
 const filtersContainer = document.querySelector(".container .filtercontainer");
-let checkedLangs = [];
+//let checkedLangs = [];
 function renderBook(BookList) {
+  
   const result = BookList.map( (item) =>
-    // debugger;
+    // ;
      `
         <div class="card">
             <img src="./image/${item.imgSrc}" alt="${item.title} class="m-w-2" />
@@ -163,7 +165,7 @@ function renderBook(BookList) {
     </div>
     `
   );
-
+console.log(result)
   let output = result.join("");
 
   cc.innerHTML = output;
@@ -185,21 +187,24 @@ const renderLanguage = () => {
       <div>
         <label for="${lang}">${lang}</label>
         <input id="${lang}" type="checkbox" onchange="handleLanguageChange(this,${lang})" />
-      <div>
+      </div>
 
   `;
     })
     .join("");
   filtersContainer.innerHTML += filterItemsL;
+
+  //console.log(filtersContainer.innerHTML)
 };
 
 renderLanguage();
 
 function handleLanguageChange(eventElement, language) {
+  debugger
  let checkedLangs=[]
   if (eventElement.checked) {
     checkedLangs.push(language);
-    debugger
+    
   } else {
     const filtered = checkedLangs.filter((item) => {
      if( item !== language){
@@ -207,13 +212,21 @@ function handleLanguageChange(eventElement, language) {
       checkedLangs.push(...filtered)
       }
     });
+    console.log(checkedLangs)
+    b++
+    debugger
   }
   handleFilterLanguage()
 }
-function handleFilterLanguage(){debugger
+function handleFilterLanguage(){
  const results= BOOKS.filter(item => {
+  console.log(item.language)
+  // debugger
     return checkedLangs.includes(item.language)
+    
   })
+
+  
 renderBook(results)
 
 }
