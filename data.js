@@ -145,29 +145,24 @@ const BOOKS = [
   },
 ];
 let cc = document.querySelector(".container .cardscontainer");
+
 const filtersContainer = document.querySelector(".container .filtercontainer");
-const checkedLangs = [];
+let checkedLangs = [];
 function renderBook(BookList) {
-  const result = BookList.map(function (item) {
+  const result = BookList.map( (item) =>
     // debugger;
-    return `
-        <div>
-            <img src="./image/${item.imgSrc}" class="m-w-2"/>
+     `
+        <div class="card">
+            <img src="./image/${item.imgSrc}" alt="${item.title} class="m-w-2" />
           <h3>  ${item.title}</h3>
-          <span>
-               نویسنده: ${item.author}
-           <span>
+          <span>نویسنده: ${item.author}<span>
          
     <a href="./index.php?id=${item.id}">
-        <div class="btn">
-           خرید
-        </div>
-     </a>
-    
-
-        </div>
-    `;
-  });
+        <div class="btn">خرید</div>
+    </a>
+    </div>
+    `
+  );
 
   let output = result.join("");
 
@@ -177,18 +172,19 @@ function renderBook(BookList) {
 renderBook(BOOKS);
 /////////filters
 const renderLanguage = () => {
-  const uniqLang = [];
+  const uniqLangs = [];
   BOOKS.forEach((current) => {
-    if (!uniqLang.includes(current.language)) uniqLang.push(current.language);
+    if (!uniqLangs.includes(current.language))
+       uniqLangs.push(current.language);
   });
-  console.log(uniqLang);
-  const filterItemsL = uniqLang
-    .map((item) => {
+  console.log(uniqLangs);
+  const filterItemsL = uniqLangs
+    .map((lang) => {
       return `
 
       <div>
-        <label for="${item}">${item}</label>
-        <input id="${item}" type="checkbox" onchange="handleLanguageChange(${item})" />
+        <label for="${lang}">${lang}</label>
+        <input id="${lang}" type="checkbox" onchange="handleLanguageChange(this,${lang})" />
       <div>
 
   `;
@@ -199,6 +195,25 @@ const renderLanguage = () => {
 
 renderLanguage();
 
-const handleLangChange = (language) =>{
-  
+function handleLanguageChange(eventElement, language) {
+ let checkedLangs=[]
+  if (eventElement.checked) {
+    checkedLangs.push(language);
+    debugger
+  } else {
+    const filtered = checkedLangs.filter((item) => {
+     if( item !== language){
+      checkedLangs.length=0;
+      checkedLangs.push(...filtered)
+      }
+    });
+  }
+  handleFilterLanguage()
+}
+function handleFilterLanguage(){debugger
+ const results= BOOKS.filter(item => {
+    return checkedLangs.includes(item.language)
+  })
+renderBook(results)
+
 }
