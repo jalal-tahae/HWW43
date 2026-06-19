@@ -148,7 +148,7 @@ let cc = document.querySelector(".container .cardscontainer");
 const language=[]
 const checkedLangs=[]
 const filtersContainer = document.querySelector(".container .filtercontainer");
-//let checkedLangs = [];
+
 function renderBook(BookList) {
   
   const result = BookList.map( (item) =>
@@ -201,27 +201,28 @@ renderLanguage();
 
 function handleLanguageChange(eventElement, language) {
   debugger
- let checkedLangs=[]
+ console.log(checkedLangs) 
   if (eventElement.checked) {
-    checkedLangs.push(language);
-    
+    debugger
+    checkedLangs.push(language.id);
+    console.log(language.id)
   } else {
     const filtered = checkedLangs.filter((item) => {
      if( item !== language){
       checkedLangs.length=0;
-      checkedLangs.push(...filtered)
+      checkedLangs.push(...item)
       }
     });
     console.log(checkedLangs)
-    b++
-    debugger
+//debugger
   }
   handleFilterLanguage()
 }
+//const results=[]
 function handleFilterLanguage(){
- const results= BOOKS.filter(item => {
-  console.log(item.language)
-  // debugger
+  results= BOOKS.filter(item => {
+
+   //debugger
     return checkedLangs.includes(item.language)
     
   })

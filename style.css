@@ -19,6 +19,16 @@ img{width: 200px;height: 300px; }
     border-radius: 5px;
   max-width: 100px;
   width: 100%;
-  
+      align-items: center;
+    justify-content: center;
+    margin: 10px;
    
+}
+.filtercontainer{
+    display: flex;
+    flex-direction: column;
+    min-width: 100px;
+    align-items: center;
+    justify-content: start;
+    gap: 0.5rem;
 }
