@@ -160,7 +160,9 @@ function renderBook(BookList) {
             </div>
           <h3>  ${item.title}</h3>
           <span>نویسنده: ${item.author}<span>
-         
+         <span class="bDate">${item.published_date}</span>
+         <span class="bLang">${item.language}</span>
+         <span class="bGenre">${item.genre}</span>
     <a href="./index.php?id=${item.id}">
         <div class="btn">خرید</div>
     </a>
