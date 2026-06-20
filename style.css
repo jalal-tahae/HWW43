@@ -1,42 +1,50 @@
-img{width: 200px;height: 300px; }
-
-.container .cardscontainer{
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+img {
+  width: 200px;
+  height: 300px;
 }
 
-.container{
-    display: flex;
-    margin:20px auto;
+.container .cardscontainer {
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.btn{
-    background-color: rgb(125, 125, 255);
-    color: white;
-    display: flex;
-    border-radius: 5px;
+.container {
+  display: flex;
+  margin: 20px auto;
+}
+
+.btn {
+  background-color: rgb(125, 125, 255);
+  color: white;
+  display: flex;
+  border-radius: 5px;
   max-width: 100px;
   width: 100%;
-      align-items: center;
-    justify-content: center;
-    margin: 10px;
-   
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
 }
-.btn a{
-    
+.btn a {
 }
-.filtercontainer{
-    display: flex;
-    flex-direction: column;
-    min-width: 100px;
-    align-items: center;
-    justify-content: start;
-    gap: 0.5rem;
-    text-shadow: 1px 1px 3px #006;
+.filtercontainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+  align-items: center;
+  justify-content: start;
+  gap: 0.5rem;
+  text-shadow: 1px 1px 3px #006;
+}
+.cardscontainer .card {
+  padding: 2px;
+  border: 1px solid rgb(211, 211, 211);
+}
+.cardscontainer .cardshadow:hover {
+background-color: #0004;
+width: 100%;
+height: min-content;
+z-index: 10;
 
-}
-.cardscontainer .card{
-border: 1px solid rgb(211, 211, 211);
 }

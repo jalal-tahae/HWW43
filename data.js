@@ -155,7 +155,9 @@ function renderBook(BookList) {
     // ;
      `
         <div class="card">
+        <div class="cardshadow">
             <img src="./image/${item.imgSrc}" alt="${item.title} class="m-w-2" />
+            </div>
           <h3>  ${item.title}</h3>
           <span>نویسنده: ${item.author}<span>
          
