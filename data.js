@@ -145,31 +145,33 @@ const BOOKS = [
   },
 ];
 let cc = document.querySelector(".container .cardscontainer");
-const language=[]
-const checkedLangs=[]
+const language = [];
+const checkedLangs = [];
 const filtersContainer = document.querySelector(".container .filtercontainer");
 
 function renderBook(BookList) {
-  
-  const result = BookList.map( (item) =>
-    // ;
-     `
+  const result = BookList.map(
+    (item) =>
+      // ;
+      `
         <div class="card">
-        <div class="cardshadow">
-            <img src="./image/${item.imgSrc}" alt="${item.title} class="m-w-2" />
+            <div class="cardshadow">
+                <img src="./image/${item.imgSrc}" alt="${item.title} class="m-w-2" />
             </div>
-          <h3>  ${item.title}</h3>
-          <span>نویسنده: ${item.author}<span>
-         <span class="bDate">${item.published_date}</span>
-         <span class="bLang">${item.language}</span>
-         <span class="bGenre">${item.genre}</span>
-    <a href="./index.php?id=${item.id}">
-        <div class="btn">خرید</div>
-    </a>
-    </div>
-    `
+            <h3>  ${item.title}</h3>
+            <div class="details">
+            <span>نویسنده: ${item.author}<span>
+            <span class="bDate">تاریخ انتشار: ${item.published_date}</span>
+            <span class="bLang">زبان: ${item.language}</span>
+            <span class="bGenre"> ژانر: ${item.genre}</span>
+            <a href="./index.php?id=${item.id}">
+              <div class="btn">خرید</div>
+            </a>
+            </div>
+        </div>
+    `,
   );
-console.log(result)
+  console.log(result);
   let output = result.join("");
 
   cc.innerHTML = output;
@@ -180,8 +182,7 @@ renderBook(BOOKS);
 const renderLanguage = () => {
   const uniqLangs = [];
   BOOKS.forEach((current) => {
-    if (!uniqLangs.includes(current.language))
-       uniqLangs.push(current.language);
+    if (!uniqLangs.includes(current.language)) uniqLangs.push(current.language);
   });
   console.log(uniqLangs);
   const filterItemsL = uniqLangs
@@ -204,34 +205,30 @@ const renderLanguage = () => {
 renderLanguage();
 
 function handleLanguageChange(eventElement, language) {
-  debugger
- console.log(checkedLangs) 
+  debugger;
+  console.log(checkedLangs);
   if (eventElement.checked) {
-    debugger
+    debugger;
     checkedLangs.push(language.id);
-    console.log(language.id)
+    console.log(language.id);
   } else {
     const filtered = checkedLangs.filter((item) => {
-     if( item !== language){
-      checkedLangs.length=0;
-      checkedLangs.push(...item)
+      if (item !== language) {
+        checkedLangs.length = 0;
+        checkedLangs.push(item);
       }
     });
-    console.log(checkedLangs)
-//debugger
+    console.log(checkedLangs);
+    //debugger
   }
-  handleFilterLanguage()
+  handleFilterLanguage();
 }
 //const results=[]
-function handleFilterLanguage(){
-  results= BOOKS.filter(item => {
+function handleFilterLanguage() {
+  results = BOOKS.filter((item) => {
+    //debugger
+    return checkedLangs.includes(item.language);
+  });
 
-   //debugger
-    return checkedLangs.includes(item.language)
-    
-  })
-
-  
-renderBook(results)
-
+  renderBook(results);
 }
