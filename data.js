@@ -171,7 +171,7 @@ function renderBook(BookList) {
         </div>
     `,
   );
-  console.log(result);
+ 
   let output = result.join("");
 
   cc.innerHTML = output;
@@ -184,7 +184,7 @@ const renderLanguage = () => {
   BOOKS.forEach((current) => {
     if (!uniqLangs.includes(current.language)) uniqLangs.push(current.language);
   });
-  console.log(uniqLangs);
+  
   const filterItemsL = uniqLangs
     .map((lang) => {
       return `
@@ -205,21 +205,21 @@ const renderLanguage = () => {
 renderLanguage();
 
 function handleLanguageChange(eventElement, language) {
-  debugger;
-  console.log(checkedLangs);
+  
+ 
   if (eventElement.checked) {
     debugger;
     checkedLangs.push(language.id);
-    console.log(language.id);
-  } else {
+   
+  } else {debugger
     const filtered = checkedLangs.filter((item) => {
       if (item !== language) {
         checkedLangs.length = 0;
         checkedLangs.push(item);
       }
     });
-    console.log(checkedLangs);
-    //debugger
+    
+    
   }
   handleFilterLanguage();
 }
