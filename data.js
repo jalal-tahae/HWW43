@@ -145,8 +145,15 @@ const BOOKS = [
   },
 ];
 let cc = document.querySelector(".container .cardscontainer");
+const startYearInput = document.getElementById("from-year");
+const endYearInput = document.getElementById("to-year");
 const language = [];
 const checkedLangs = [];
+const checkedAuthors = [];
+const genre = [];
+const checkedGenre = [];
+let startYear;
+let endYear;
 const filtersContainer = document.querySelector(".container .filtercontainer");
 
 function renderBook(BookList) {
@@ -156,7 +163,7 @@ function renderBook(BookList) {
       `
         <div class="card">
             <div class="cardshadow">
-                <img src="./image/${item.imgSrc}" alt="${item.title} class="m-w-2" />
+                <img src="./image/${item.imgSrc}" alt="${item.title}" class="m-w-2" />
             </div>
             <h3>  ${item.title}</h3>
             <div class="details">
@@ -171,10 +178,13 @@ function renderBook(BookList) {
         </div>
     `,
   );
- 
-  let output = result.join("");
 
-  cc.innerHTML = output;
+  if (result.length === 0) {
+    cc.innerHTML = "<h2>فیلتر ها بی نتیجه بود</h2>";
+  } else {
+    let output = result.join("");
+    cc.innerHTML = output;
+  }
 }
 
 renderBook(BOOKS);
@@ -184,51 +194,182 @@ const renderLanguage = () => {
   BOOKS.forEach((current) => {
     if (!uniqLangs.includes(current.language)) uniqLangs.push(current.language);
   });
-  
+
   const filterItemsL = uniqLangs
     .map((lang) => {
       return `
 
       <div>
         <label for="${lang}">${lang}</label>
-        <input id="${lang}" type="checkbox" onchange="handleLanguageChange(this,${lang})" />
+        <input id="${lang}" type="checkbox" onchange="handleLanguageChange(this,'${lang}')" />
       </div>
 
   `;
     })
     .join("");
-  filtersContainer.innerHTML += filterItemsL;
+  filtersContainer.innerHTML += `
+    <div>
+      <h3>زبان ها</h3>
+      ${filterItemsL}
+    </div>
+  `;
 
   //console.log(filtersContainer.innerHTML)
 };
-
 renderLanguage();
 
-function handleLanguageChange(eventElement, language) {
-  
- 
-  if (eventElement.checked) {
-    debugger;
-    checkedLangs.push(language.id);
-   
-  } else {debugger
-    const filtered = checkedLangs.filter((item) => {
-      if (item !== language) {
-        checkedLangs.length = 0;
-        checkedLangs.push(item);
-      }
-    });
-    
-    
+const renderAuthorsFilter = () => {
+  const uniqueAuthors = [];
+
+  BOOKS.forEach((current) => {
+    if (!uniqueAuthors.includes(current.author)) {
+      uniqueAuthors.push(current.author);
+    }
+  });
+
+  console.log("unique Authors:", uniqueAuthors);
+
+  const filterItems = uniqueAuthors
+    .map((item) => {
+      return `
+          <div>
+              <label for="${item}">${item}</label>
+              <input id="${item}" type="checkbox" onchange="handleAuthorChange(this,'${item}')" />
+          </div>
+      `;
+    })
+    .join("");
+
+  filtersContainer.innerHTML += `
+    <div>
+      <h3>نویسنده ها</h3>
+      ${filterItems}
+    </div>
+  `;
+};
+renderAuthorsFilter();
+
+const handleAuthorChange = (inputElement, author) => {
+  if (inputElement.checked) {
+    checkedAuthors.push(author);
+  } else {
+    const result = checkedAuthors.filter((item) => item !== author);
+
+    checkedAuthors.length = 0;
+    checkedAuthors.push(...result);
   }
-  handleFilterLanguage();
+
+  handleFilter();
+};
+
+function handleLanguageChange(eventElement, language) {
+  if (eventElement.checked) {
+    checkedLangs.push(language);
+  } else {
+    const filtered = checkedLangs.filter((item) => item !== language);
+
+    checkedLangs.length = 0;
+    checkedLangs.push(...filtered);
+  }
+  handleFilter();
 }
-//const results=[]
-function handleFilterLanguage() {
+let results = [];
+function handleFilter() {
   results = BOOKS.filter((item) => {
-    //debugger
-    return checkedLangs.includes(item.language);
+    //
+    return checkedLangs.length === 0
+      ? true
+      : checkedLangs.includes(item.language);
+  });
+
+  results = results.filter((item) =>
+    checkedAuthors.length === 0 ? true : checkedAuthors.includes(item.author),
+  );
+
+ results = results.filter((item) =>
+    checkedGenre.length === 0 ? true : checkedGenre.includes(item.genre),
+  );
+
+  results = results.filter((item) => {
+    if (!startYear && !endYear) return true;
+
+    if (startYear && !endYear) {
+      if (item.published_date >= startYear) return true;
+    }
+
+    if (!startYear && endYear) {
+      if (item.published_date <= endYear) return true;
+    }
+
+    if (item.published_date >= startYear && item.published_date <= endYear) {
+      return true;
+    } else {
+      return false;
+    }
   });
 
   renderBook(results);
+}
+
+function handleYearChange(evt) {
+  if (evt.target.id === "from-year") {
+    startYear = evt.target.value;
+  } else {
+    endYear = evt.target.value;
+  }
+
+  console.log("start:", startYear);
+  console.log("end:", endYear);
+
+  handleFilter();
+}
+
+// debugger
+// startYearInput.addEventListener("keydown", handleYearChange)
+// endYearInput.addEventListener("keydown", handleYearChange)
+
+// window.addEventListener("keydown", (event) => console.log(event))
+
+const renderGenre = () => {
+  const uniqGenre = [];
+  BOOKS.forEach((current) => {
+    if (!uniqGenre.includes(current.genre)) uniqGenre.push(current.genre);
+  });
+console.log(uniqGenre);
+  const filterItemsG = uniqGenre
+    .map((genre) => {
+      return `
+
+      <div>
+        <label for="${genre}">${genre}</label>
+        <input id="${genre}" type="checkbox" onchange="handleGenreChange(this,'${genre}')" />
+      </div>
+
+  `;
+    })
+    .join("");
+  filtersContainer.innerHTML += `
+    <div>
+      <h3>ژانرها</h3>
+      ${filterItemsG}
+    </div>
+  `;
+  debugger;
+  //console.log(filtersContainer.innerHTML)
+};
+renderGenre();
+
+
+
+
+function handleGenreChange(eventElement, genre) {
+  if (eventElement.checked) {
+    checkedGenre.push(genre);
+  } else {
+    const filtered = checkedGenre.filter((item) => item !== genre);
+
+    checkedGenre.length = 0;
+    checkedGenre.push(...filtered);
+  }
+  handleFilter();
 }
